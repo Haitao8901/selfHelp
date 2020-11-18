@@ -1,0 +1,890 @@
+@charset "utf-8";
+/* CSS Document */
+* {
+    box-sizing: border-box;
+    font-family: arial, 'Hiragino Sans GB', 'Microsoft Yahei', Tahoma, Helvetica, STHeiti;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    letter-spacing: -0.5px;
+    position: relative;
+    overflow: auto !important;
+    font-size: 14px;
+    color: #333;
+}
+
+a {
+    color: #49b6ff;
+}
+
+a, a:link, a:visited, a:active {
+    text-decoration: none;
+}
+
+a:hover, a:focus {
+    color: rgba(255, 174, 0, 1);
+}
+
+ul, li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+h2, h3, h3, h4 {
+    margin: 0;
+}
+
+.bg {
+    background: #1b1d21;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+@media screen and (max-width: 1024px) {
+    .main {
+    }
+
+    .header {
+        margin: 0px 0px;
+        height: 50px;
+        z-index: 1000;
+        background: #2f9fff;
+        border-bottom: 1px solid #2f9fff;
+        box-shadow: 10px 10px 85px rgba(0, 0, 0, 0.2);
+        position: fixed;
+        display: flex;
+        width: 100%;
+        top: 0px;
+    }
+
+    .header .logo {
+        float: left;
+        padding-left: 5px;
+        margin-top: 0px;
+    }
+
+    .header .logo img.logoimg {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+        float: left;
+    }
+
+    .header .logo .logotext {
+        float: left;
+        color: #fff;
+        margin-top: 5px;
+    }
+
+    .header h2 {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .header h4 {
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .header .school {
+        float: right;
+        margin-top: 10px;
+    }
+
+    .header .school .schoolname {
+        text-align: right;
+        color: #fff;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .header .school .btncont {
+        text-align: right;
+        padding-top: 5px;
+    }
+
+    .header .school .btncont a {
+        font-size: 14px;
+        margin-left: 10px;
+        color: #fff;
+    }
+
+    .content {
+        position: fixed;
+        width: 100%;
+        bottom: 30px;
+        top: 50px;
+        overflow: hidden;
+        background: white;
+        margin: 0px;
+        font-size: 12px;
+    }
+
+    .content .title {
+        height: 25px;
+        line-height: 25px;
+        font-size: 13px;
+        border-bottom: 1px solid #2f9fff;
+        margin-bottom: 8px;
+    }
+
+    .content .title i {
+        margin-right: 10px;
+        color: #2f9fff;
+    }
+
+    .content .cbox .cont .cont-in-left {
+        float: left;
+        width: 60%;
+    }
+
+    .content .cbox .cont .cont-in-left > div {
+        width: 100%;
+        line-height: 25px;
+        margin-bottom: 0px;
+    }
+
+    .content .cbox {
+        float: left;
+        width: 100%;
+        height: 33%;
+        box-sizing: border-box;
+        padding: 5px 20px 5px 20px;
+        margin-bottom: 8px;
+    }
+
+    .content .cbox .cont .cont-in-left > div > label {
+        width: 25%;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    .content .cbox .cont .cont-in-left > div > input {
+        width: 70%;
+        vertical-align: middle;
+        display: inline-block;
+        height: 25px;
+        border: 1px solid #CCC;
+        border-radius: 5px;
+        background: #f3f3f3;
+        padding: 0 0 0 5px;
+    }
+
+    .content .cbox .cont .cont-in-left > div > select {
+        width: 70%;
+        vertical-align: middle;
+        display: inline-block;
+        height: 30px;
+        border: 1px solid #CCC;
+        border-radius: 5px;
+        background: #f3f3f3;
+    }
+
+    .content .cbox .cont div > textarea {
+        width: 70%;
+        resize: none;
+        vertical-align: top;
+        display: inline-block;
+        height: 50px;
+        border: 1px solid #CCC;
+        border-radius: 5px;
+        background: #f3f3f3;
+    }
+
+    .content .cbox .cont .cont-in-right {
+        float: left;
+        width: 40%;
+        margin-left: 0%;
+        text-align: center;
+        box-sizing: border-box;
+        padding: 0 20px;
+    }
+
+    .content .cbox .cont .cont-in-right .inpic {
+        background: #fff;
+        border: 1px solid #09F;
+        height: 185px;
+        width: 185px;
+        display: inline-block;
+        background-size: cover;
+        /*display: flex;*/
+        align-items: center;
+        overflow: hidden;
+        border-radius: 5px;
+        box-shadow: 10px 10px 85px rgba(0, 0, 0, 0.2);
+    }
+
+    .content .cbox .cont .cont-in-right .inpic img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .content .lfbox {
+        padding: 10px 20px 20px 20px;
+        float: left;
+        width: 100%;
+    }
+
+    .content .lfbox .tabler {
+        float: left;
+        width: 100%;
+    }
+
+    .content .lfbox .tabler.datatable {
+        height: 30%;
+        overflow-y: auto;
+    }
+
+    .content .lfbox .tabler table {
+        border: 0px solid #2f9fff;
+        background: #2f9fff;
+        border-collapse: separate;
+    }
+
+    .content .lfbox .tabler table tr td {
+        background: #fff;
+        line-height: 20px;
+        width: 16.6%;
+    }
+
+    .content .lfbox .tabler table .th td {
+        width: 16.6%;
+        text-align: center;
+        font-size: 13px;
+        color: #fff;
+        background: #2f9fff;
+    }
+
+    .content .lfbox .picer {
+        float: left;
+        width: 40%;
+    }
+
+    .content .lfbox .picer div.p1 {
+        width: 58%;
+        height: 200px;
+        background: #eee;
+        float: left;
+        margin-left: 1%;
+        text-align: center;
+    }
+
+    .content .lfbox .picer div.p1 img {
+        height: 200px;
+    }
+
+    .content .lfbox .picer div.p2 {
+        width: 39%;
+        height: 200px;
+        background: #eee;
+        float: left;
+        margin-left: 1%;
+        text-align: center;
+    }
+
+    .content .lfbox .picer div.p2 img {
+        width: 200px;
+        height: 200px;
+    }
+
+    .footer {
+        background: #e8e8e8;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 15px;
+        color: #666;
+        font-size: 12px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .footer div span {
+        margin-right: 0px;
+    }
+
+    .recordTable {
+        text-align: center;
+    }
+
+    .recordTable tr:nth-child(2n+1) {
+        color: #b94e1f;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .main {
+    }
+
+    .header {
+        margin: 0px 0px;
+        height: 40px;
+        z-index: 1000;
+        background: #2f9fff;
+        border-bottom: 1px solid #2f9fff;
+        box-shadow: 10px 10px 85px rgba(0, 0, 0, 0.2);
+        position: fixed;
+        display: flex;
+        width: 100%;
+        top: 0px;
+    }
+
+    .header .logo {
+        float: left;
+        padding-left: 5px;
+        margin-top: 0px;
+    }
+
+    .header .logo img.logoimg {
+        width: 30px;
+        height: 30px;
+        margin-right: 5px;
+        float: left;
+    }
+
+    .header .logo .logotext {
+        float: left;
+        color: #fff;
+        margin-top: 0px;
+    }
+
+    .header h2 {
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .header h4 {
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .header .school {
+        float: right;
+        margin-top: 5px;
+    }
+
+    .header .school .schoolname {
+        text-align: right;
+        color: #fff;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .header .school .btncont {
+        text-align: right;
+        padding-top: 5px;
+    }
+
+    .header .school .btncont a {
+        font-size: 14px;
+        margin-left: 10px;
+        color: #fff;
+    }
+
+    .content {
+        position: fixed;
+        width: 100%;
+        bottom: 25px;
+        top: 40px;
+        overflow: hidden;
+        background: white;
+        margin: 0px;
+        font-size: 10px;
+    }
+
+    .content .title {
+        height: 25px;
+        line-height: 25px;
+        font-size: 12px;
+        border-bottom: 1px solid #2f9fff;
+        margin-bottom: 5px;
+    }
+
+    .content .title i {
+        margin-right: 10px;
+        color: #2f9fff;
+    }
+
+    .content .cbox .cont .cont-in-left {
+        float: left;
+        width: 60%;
+    }
+
+    .content .cbox .cont .cont-in-left > div {
+        width: 100%;
+        line-height: 20px;
+        margin-bottom: 5px;
+    }
+
+    .content .cbox {
+        float: left;
+        width: 100%;
+        height: 33%;
+        box-sizing: border-box;
+        padding: 5px 10px 5px 15px;
+    }
+
+    .content .cbox .cont .cont-in-left > div > label {
+        width: 25%;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    .content .cbox .cont .cont-in-left > div > input {
+        width: 70%;
+        vertical-align: middle;
+        display: inline-block;
+        height: 25px;
+        border: 1px solid #CCC;
+        border-radius: 5px;
+        background: #f3f3f3;
+        padding: 0 0 0 5px;
+    }
+
+    .content .cbox .cont .cont-in-left > div > select {
+        width: 70%;
+        vertical-align: middle;
+        display: inline-block;
+        height: 25px;
+        border: 1px solid #CCC;
+        border-radius: 5px;
+        background: #f3f3f3;
+    }
+
+    .content .cbox .cont div > textarea {
+        width: 70%;
+        resize: none;
+        vertical-align: top;
+        display: inline-block;
+        height: 50px;
+        border: 1px solid #CCC;
+        border-radius: 5px;
+        background: #f3f3f3;
+    }
+
+    .content .cbox .cont .cont-in-right {
+        float: left;
+        width: 40%;
+        margin-left: 0%;
+        text-align: center;
+        box-sizing: border-box;
+        padding: 0 20px;
+    }
+
+    .content .cbox .cont .cont-in-right .inpic {
+        background: #fff;
+        border: 1px solid #09F;
+        height: 180px;
+        width: 100%;
+        display: inline-block;
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        border-radius: 5px;
+        box-shadow: 10px 10px 85px rgba(0, 0, 0, 0.2);
+    }
+
+    .content .cbox .cont .cont-in-right .inpic img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .content .lfbox {
+        padding: 10px 20px 10px 20px;
+        float: left;
+        width: 100%;
+    }
+
+    .content .lfbox .tabler {
+        float: left;
+        width: 100%;
+    }
+
+    .content .lfbox .tabler.datatable {
+        height: 30%;
+        overflow-y: auto;
+    }
+
+    .content .lfbox .tabler table {
+        border: 0px solid #2f9fff;
+        background: #2f9fff;
+        border-collapse: separate;
+    }
+
+    .content .lfbox .tabler table tr td {
+        background: #fff;
+        line-height: 20px;
+        width: 16.6%;
+    }
+
+    .content .lfbox .tabler table .th td {
+        width: 16.6%;
+        text-align: center;
+        font-size: 12px;
+        color: #fff;
+        background: #2f9fff;
+    }
+
+    .content .lfbox .picer {
+        float: left;
+        width: 40%;
+    }
+
+    .content .lfbox .picer div.p1 {
+        width: 58%;
+        height: 200px;
+        background: #eee;
+        float: left;
+        margin-left: 1%;
+        text-align: center;
+    }
+
+    .content .lfbox .picer div.p1 img {
+        height: 200px;
+    }
+
+    .content .lfbox .picer div.p2 {
+        width: 39%;
+        height: 200px;
+        background: #eee;
+        float: left;
+        margin-left: 1%;
+        text-align: center;
+    }
+
+    .content .lfbox .picer div.p2 img {
+        width: 200px;
+        height: 200px;
+    }
+
+    .footer {
+        height: 25px;
+        line-height: 25px;
+        padding: 0 20px;
+        color: #666;
+        font-size: 12px;
+        background: #e8e8e8;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .footer div span {
+        margin-right: 0px;
+    }
+
+    .recordTable {
+        text-align: center;
+    }
+
+    .recordTable tr:nth-child(2n+1) {
+        color: #b94e1f;
+    }
+
+}
+
+@media screen and (min-width: 1024px) {
+    .main {
+    }
+
+    .header {
+        margin: 0px 0px;
+        height: 75px;
+        z-index: 1000;
+        background: #2f9fff;
+        border-bottom: 1px solid #2f9fff;
+        box-shadow: 10px 10px 85px rgba(0, 0, 0, 0.2);
+        position: fixed;
+        display: flex;
+        width: 100%;
+        top: 0px;
+    }
+
+    .header .logo {
+        float: left;
+        padding-left: 5px;
+        margin-top: 10px;
+    }
+
+    .header .logo img.logoimg {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+        float: left;
+    }
+
+    .header .logo .logotext {
+        float: left;
+        color: #fff;
+        margin-top: 5px;
+    }
+
+    .header h2 {
+        font-size: 21px;
+        font-weight: bold;
+    }
+
+    .header h4 {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .header .school {
+        float: right;
+        margin-top: 15px;
+    }
+
+    .header .school .schoolname {
+        text-align: right;
+        color: #fff;
+        font-weight: bold;
+        font-size: 21px;
+    }
+
+    .header .school .btncont {
+        text-align: right;
+        padding-top: 5px;
+    }
+
+    .header .school .btncont a {
+        font-size: 14px;
+        margin-left: 10px;
+        color: #fff;
+    }
+
+    .content {
+        position: fixed;
+        width: 100%;
+        bottom: 30px;
+        top: 75px;
+        overflow: hidden;
+        background: white;
+        margin: 0px;
+    }
+
+    .content .cbox .title {
+        height: 40px;
+        line-height: 40px;
+        font-size: 20px;
+        border-bottom: 1px solid #2f9fff;
+        margin-bottom: 10px;
+    }
+
+    .content .cbox .title i {
+        margin-right: 10px;
+        color: #2f9fff;
+    }
+
+    .content .cbox .cont .cont-in-left {
+        float: left;
+        width: 60%;
+    }
+
+    .content .cbox .cont .cont-in-left > div {
+        width: 100%;
+        line-height: 30px;
+        margin-bottom: 10px;
+    }
+
+    .content .cbox {
+        float: left;
+        width: 50%;
+        box-sizing: border-box;
+        padding: 10px 20px 10px 20px;
+    }
+
+    .content .cbox .cont .cont-in-left > div > label {
+        width: 25%;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    .content .cbox .cont .cont-in-left > div > input {
+        width: 70%;
+        vertical-align: middle;
+        display: inline-block;
+        height: 30px;
+        border: 1px solid #CCC;
+        border-radius: 5px;
+        background: #f3f3f3;
+        padding: 0 0 0 5px;
+    }
+
+    .content .cbox .cont .cont-in-left > div > select {
+        width: 70%;
+        vertical-align: middle;
+        display: inline-block;
+        height: 30px;
+        border: 1px solid #CCC;
+        border-radius: 5px;
+        background: #f3f3f3;
+    }
+
+    .content .cbox .cont div > textarea {
+        width: 70%;
+        resize: none;
+        vertical-align: top;
+        display: inline-block;
+        height: 86px;
+        border: 1px solid #CCC;
+        border-radius: 5px;
+        background: #f3f3f3;
+    }
+
+    .content .cbox .cont .cont-in-right {
+        float: left;
+        width: 40%;
+        margin-left: 0%;
+        text-align: center;
+        box-sizing: border-box;
+        padding: 0 20px;
+    }
+
+    .content .cbox .cont .cont-in-right .inpic {
+        background: #fff;
+        border: 1px solid #09F;
+        height: 200px;
+        width: 100%;
+        display: inline-block;
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        border-radius: 5px;
+        box-shadow: 10px 10px 85px rgba(0, 0, 0, 0.2);
+    }
+
+    .content .cbox .cont .cont-in-right .inpic img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .content .lfbox {
+        padding: 10px 20px 20px 20px;
+        float: left;
+        width: 100%;
+    }
+
+    .content .lfbox .title {
+        height: 40px;
+        line-height: 40px;
+        font-size: 20px;
+        border-bottom: 1px solid #2f9fff;
+        margin-bottom: 10px;
+    }
+
+    .content .lfbox .title i {
+        margin-right: 10px;
+        color: #2f9fff;
+    }
+
+    .content .lfbox .tabler {
+        float: left;
+        width: 100%;
+    }
+
+    .content .lfbox .tabler.datatable {
+        height: 30%;
+        overflow-y: auto;
+    }
+
+    .content .lfbox .tabler table {
+        border: 0px solid #2f9fff;
+        background: #2f9fff;
+        border-collapse: separate;
+    }
+
+    .content .lfbox .tabler table tr td {
+        background: #fff;
+        line-height: 30px;
+        width: 100px;
+    }
+
+    .content .lfbox .tabler table .th td {
+        width: 100px;
+        text-align: center;
+        font-size: 16px;
+        color: #fff;
+        background: #2f9fff;
+    }
+
+    .content .lfbox .picer {
+        float: left;
+        width: 40%;
+    }
+
+    .content .lfbox .picer div.p1 {
+        width: 58%;
+        height: 200px;
+        background: #eee;
+        float: left;
+        margin-left: 1%;
+        text-align: center;
+    }
+
+    .content .lfbox .picer div.p1 img {
+        height: 200px;
+    }
+
+    .content .lfbox .picer div.p2 {
+        width: 39%;
+        height: 200px;
+        background: #eee;
+        float: left;
+        margin-left: 1%;
+        text-align: center;
+    }
+
+    .content .lfbox .picer div.p2 img {
+        width: 200px;
+        height: 200px;
+    }
+
+    .footer {
+        background: #e8e8e8;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 20px;
+        color: #666;
+        font-size: 14px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .footer div span {
+        margin-right: 0px;
+    }
+
+    .recordTable {
+        text-align: center;
+    }
+
+    .recordTable tr:nth-child(2n+1) {
+        color: #b94e1f;
+    }
+}
+
+@media screen  and (min-width: 1280px){
+    .content .cbox .cont .cont-in-right .inpic {
+        height: 250px;
+    }
+}
+
+@media screen  and (min-width: 1440px){
+    .content .cbox .cont .cont-in-right .inpic {
+        height: 280px;
+    }
+}

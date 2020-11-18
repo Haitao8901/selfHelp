@@ -1,0 +1,114 @@
+body {
+    background: lightskyblue;
+    min-width: 400px;
+}
+
+.row {
+    padding: 5px;
+}
+
+.container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 0;
+}
+
+.sysModal, .imageModal {
+    margin-top: 8%;
+    padding: 10px;
+    text-align: center;
+}
+
+.sysModal .timeCount, .imageModal .timeCount {
+    color: blue;
+}
+
+.modal-backdrop{
+    opacity: 0.3 !important;
+}
+
+@media screen and (min-width: 1024px) {
+    .welcomeDiv {
+        margin-top: 10%;
+    }
+
+    .modal-content h5 {
+        padding: 10px;
+    }
+
+    .modal-content {
+        margin-left: 16%;
+        margin-top: 20%;
+    }
+
+    .sysModal .modal-content {
+        min-height: 100px;
+        max-width: 400px;
+    }
+
+    .imageModal .modal-content {
+        max-height: 400px;
+        max-width: 400px;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .welcomeDiv {
+        margin-top: 0;
+    }
+
+@media screen and (max-width: 1024px) {
+    .welcomeDiv {
+        margin-top: 10%;
+    }
+
+    .modal-content h5 {
+        padding: 8px;
+        margin-bottom: 0px;
+    }
+
+    .modal-content {
+        margin-left: 10%;
+        margin-top: 20%;
+        max-width: 350px;
+        max-height: 350px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .welcomeDiv {
+        margin-top: 30%;
+    }
+
+    .modal-content {
+        margin-left: 16%;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .welcomeDiv {
+        margin-top: 30%;
+    }
+
+    .modal-content {
+        margin-left: 16%;
+        margin-top: 20%;
+        max-width: 300px;
+        max-height: 300px;
+    }
+    .modal-content h5 {
+        padding: 8px;
+        font-size: 16px;
+        margin-bottom: 0px;
+    }
+    .modal-content img {
+        height: 200px;
+        width: 200px;
+    }
+}
+
+
+

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>访客机</title>
+    <link rel="stylesheet" href="css/visitor/font-awesome.css">
+    <link rel="stylesheet" href="css/visitor/visitor.css">
+    <script src="js/selfhelp/base/webSocket.js"></script>
+    <script src="js/selfhelp/visitor.js"></script>
+</head>
+<body>
+<div class="main">
+    <div class="header row">
+        <div class="logo col-6" >
+            <img class="logoimg" src="images/logo.png"/>
+            <div class="logotext">
+                <h2 class="bigtext">智能访客系统</h2>
+                <h4 class="smalltext">Smart Visitor System</h4>
+            </div>
+        </div>
+        <div class="school col-6">
+            <h2 class="schoolname">实验学校</h2>
+<!--            <h3 class="schoolname">实验学校</h3>-->
+<!--            <div class="btncont">-->
+<!--                <a href="#">关于</a>-->
+<!--                <a href="#" class="quithref">退出</a>-->
+        </div>
+        </div>
+    </div>
+    <div class="content">
+<!--        <div class="rowbox">-->
+            <div class="cbox">
+                <div class="title"><i class="fa fa-user-circle"></i><span>访客信息</span></div>
+                <div class="cont">
+                    <div class="cont-in-left">
+                        <div><label>访客姓名：</label><input readonly class="visitorName" value=""/></div>
+                        <div><label>访客性别：</label><input readonly class="visitorSex" value=""/></div>
+                        <div><label>出生日期：</label><input readonly class="visitorBirthDate" value=""/></div>
+                        <div><label>身份证号：</label><input readonly class="visitorIdCardNo" value=""/></div>
+                        <div><label>访客住址：</label><textarea readonly rows="2" cols="50" class="visitorAddress"></textarea></div>
+                    </div>
+                    <div class="cont-in-right">
+                        <div class="inpic">
+                            <img class="vipi visitorImage" src="images/tx.png"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cbox">
+                <div class="title"><i class="fa fa-user-circle-o"></i><span>被访信息</span></div>
+                <div class="cont">
+                    <div class="cont-in-left">
+                        <div><label>被访姓名：</label><input readonly class="cname" value=""/></div>
+                        <div><label>所在年级：</label><input readonly class="cgrade" value=""/></div>
+                        <div><label>所在班级：</label><input readonly class="cclass" value=""/></div>
+
+<!--                        <div>-->
+<!--                            <label>访客类型：</label><select readonly class="cType" name="select" id="typeSelect">-->
+<!--                            <option value="1">家长</option>-->
+<!--                            <option value="2">其他</option>-->
+<!--                        </select>-->
+<!--                        </div>-->
+<!--                        <div><label>访客事由：</label><select class="creason" name="select" id="reasonSelect">-->
+<!--                            <option value="1">探访</option>-->
+<!--                            <option value="2">办事</option>-->
+<!--                            <option value="3">其他</option>-->
+<!--                        </select></div>-->
+                        <div><label>访客类型：</label><input readonly class="cType" value=""/></div>
+                        <div><label>访客事由：</label><input  readonly class="creason" value=""/></div>
+                        <div><label>访问备注：</label><input readonly  class="cremark"></input></div>
+                    </div>
+                    <div class="cont-in-right">
+                        <div class="inpic">
+                            <img class="vipi cimage" src="images/tx.png" width="100%"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!--        </div>-->
+<!--        <div class="rowbox">-->
+            <div class="lfbox">
+                <div class="title"><i class="fa fa-address-card-o"></i><span>来访情况</span></div>
+<!--                <div class="cont">-->
+                    <div class="tabler">
+                        <table class="recordTableHeader" width="100%" border="0" cellspacing="1" cellpadding="1">
+                            <tr class="th">
+                                <td>访问时间</td>
+                                <td>访客姓名</td>
+                                <td>访客事由</td>
+                                <td>被访姓名</td>
+                                <td>班级</td>
+                                <td>年级</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="tabler datatable">
+                        <table class="recordTable" width="100%" border="0" cellspacing="1" cellpadding="1">
+                            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                        </table>
+
+                    </div>
+<!--                </div>-->
+            </div>
+<!--        </div>-->
+
+    </div>
+    <div class="footer">
+        <div><span>设备编号：</span><span class="deviceNo">000</span></div>
+        <div><span>当前位置：</span><span class="location">北大门</span></div>
+        <div><span>当前时间：</span><span class="timeSpan">2020-10-22 15:30:22</span></div>
+    </div>
+
+</div>
+</body>
+</html>
