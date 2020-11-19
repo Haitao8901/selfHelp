@@ -1,5 +1,18 @@
 //@ sourceURL=welcome_src.js
 $(function(){
+    initStatus();
+
+    //初始化一些状态
+    function initStatus(){
+        shStore.closeWindow = false;
+        shStore.deviceNo = '';
+        shStore.devicePort = '';
+        shStore.location = '';
+        shStore.school = '';
+        shStore.events = [];
+        shStore.eventListeners = [];
+    }
+
     $('#connect').on('click', function () {
         var deviceNo = $('#deviceNo').val();
         if(!deviceNo){

@@ -45,6 +45,21 @@ h2, h3, h3, h4 {
     background-size: cover;
 }
 
+/*读卡器读到的图片分辨率为 102* 126 */
+.content .cbox .inpic  {
+    width: 160px !important;
+    height: 180px !important;
+}
+
+.content .cbox .inpic img {
+    object-fit: scale-down;
+    width: 100%;
+    height: 100%;
+}
+.content .datatable{
+    border-bottom: 0.5px solid #2f9fff;
+}
+
 @media screen and (max-width: 1024px) {
     .main {
     }
@@ -152,10 +167,11 @@ h2, h3, h3, h4 {
     .content .cbox {
         float: left;
         width: 100%;
-        height: 33%;
+        /*height: 33%;*/
         box-sizing: border-box;
         padding: 5px 20px 5px 20px;
         margin-bottom: 8px;
+        overflow-x: auto;
     }
 
     .content .cbox .cont .cont-in-left > div > label {
@@ -175,22 +191,11 @@ h2, h3, h3, h4 {
         padding: 0 0 0 5px;
     }
 
-    .content .cbox .cont .cont-in-left > div > select {
-        width: 70%;
-        vertical-align: middle;
-        display: inline-block;
-        height: 30px;
-        border: 1px solid #CCC;
-        border-radius: 5px;
-        background: #f3f3f3;
-    }
-
     .content .cbox .cont div > textarea {
         width: 70%;
         resize: none;
         vertical-align: top;
         display: inline-block;
-        height: 50px;
         border: 1px solid #CCC;
         border-radius: 5px;
         background: #f3f3f3;
@@ -202,26 +207,18 @@ h2, h3, h3, h4 {
         margin-left: 0%;
         text-align: center;
         box-sizing: border-box;
-        padding: 0 20px;
+        padding: 0 10px;
     }
 
     .content .cbox .cont .cont-in-right .inpic {
         background: #fff;
         border: 1px solid #09F;
-        height: 185px;
-        width: 185px;
         display: inline-block;
         background-size: cover;
-        /*display: flex;*/
         align-items: center;
         overflow: hidden;
         border-radius: 5px;
         box-shadow: 10px 10px 85px rgba(0, 0, 0, 0.2);
-    }
-
-    .content .cbox .cont .cont-in-right .inpic img {
-        width: 100%;
-        height: 100%;
     }
 
     .content .lfbox {
@@ -258,38 +255,6 @@ h2, h3, h3, h4 {
         font-size: 13px;
         color: #fff;
         background: #2f9fff;
-    }
-
-    .content .lfbox .picer {
-        float: left;
-        width: 40%;
-    }
-
-    .content .lfbox .picer div.p1 {
-        width: 58%;
-        height: 200px;
-        background: #eee;
-        float: left;
-        margin-left: 1%;
-        text-align: center;
-    }
-
-    .content .lfbox .picer div.p1 img {
-        height: 200px;
-    }
-
-    .content .lfbox .picer div.p2 {
-        width: 39%;
-        height: 200px;
-        background: #eee;
-        float: left;
-        margin-left: 1%;
-        text-align: center;
-    }
-
-    .content .lfbox .picer div.p2 img {
-        width: 200px;
-        height: 200px;
     }
 
     .footer {
@@ -426,9 +391,10 @@ h2, h3, h3, h4 {
     .content .cbox {
         float: left;
         width: 100%;
-        height: 33%;
+        /*height: 33%;*/
         box-sizing: border-box;
         padding: 5px 10px 5px 15px;
+        overflow-x: auto;
     }
 
     .content .cbox .cont .cont-in-left > div > label {
@@ -448,22 +414,12 @@ h2, h3, h3, h4 {
         padding: 0 0 0 5px;
     }
 
-    .content .cbox .cont .cont-in-left > div > select {
-        width: 70%;
-        vertical-align: middle;
-        display: inline-block;
-        height: 25px;
-        border: 1px solid #CCC;
-        border-radius: 5px;
-        background: #f3f3f3;
-    }
-
     .content .cbox .cont div > textarea {
         width: 70%;
         resize: none;
         vertical-align: top;
         display: inline-block;
-        height: 50px;
+        /*height: 50px;*/
         border: 1px solid #CCC;
         border-radius: 5px;
         background: #f3f3f3;
@@ -475,7 +431,7 @@ h2, h3, h3, h4 {
         margin-left: 0%;
         text-align: center;
         box-sizing: border-box;
-        padding: 0 20px;
+        padding: 0 10px;
     }
 
     .content .cbox .cont .cont-in-right .inpic {
@@ -490,11 +446,6 @@ h2, h3, h3, h4 {
         overflow: hidden;
         border-radius: 5px;
         box-shadow: 10px 10px 85px rgba(0, 0, 0, 0.2);
-    }
-
-    .content .cbox .cont .cont-in-right .inpic img {
-        width: 100%;
-        height: 100%;
     }
 
     .content .lfbox {
@@ -547,24 +498,6 @@ h2, h3, h3, h4 {
         text-align: center;
     }
 
-    .content .lfbox .picer div.p1 img {
-        height: 200px;
-    }
-
-    .content .lfbox .picer div.p2 {
-        width: 39%;
-        height: 200px;
-        background: #eee;
-        float: left;
-        margin-left: 1%;
-        text-align: center;
-    }
-
-    .content .lfbox .picer div.p2 img {
-        width: 200px;
-        height: 200px;
-    }
-
     .footer {
         height: 25px;
         line-height: 25px;
@@ -598,8 +531,9 @@ h2, h3, h3, h4 {
     }
 
     .header {
-        margin: 0px 0px;
-        height: 75px;
+        margin: 0;
+        top: 0;
+        height: 60px;
         z-index: 1000;
         background: #2f9fff;
         border-bottom: 1px solid #2f9fff;
@@ -607,13 +541,11 @@ h2, h3, h3, h4 {
         position: fixed;
         display: flex;
         width: 100%;
-        top: 0px;
     }
 
     .header .logo {
         float: left;
         padding-left: 5px;
-        margin-top: 10px;
     }
 
     .header .logo img.logoimg {
@@ -630,7 +562,7 @@ h2, h3, h3, h4 {
     }
 
     .header h2 {
-        font-size: 21px;
+        font-size: 20px;
         font-weight: bold;
     }
 
@@ -641,46 +573,45 @@ h2, h3, h3, h4 {
 
     .header .school {
         float: right;
-        margin-top: 15px;
+        margin-top: 10px;
+        padding: 0 20px;
     }
 
     .header .school .schoolname {
         text-align: right;
         color: #fff;
         font-weight: bold;
-        font-size: 21px;
-    }
-
-    .header .school .btncont {
-        text-align: right;
-        padding-top: 5px;
-    }
-
-    .header .school .btncont a {
-        font-size: 14px;
-        margin-left: 10px;
-        color: #fff;
+        font-size: 20px;
     }
 
     .content {
         position: fixed;
         width: 100%;
         bottom: 30px;
-        top: 75px;
+        top: 60px;
         overflow: hidden;
         background: white;
         margin: 0px;
     }
 
-    .content .cbox .title {
-        height: 40px;
-        line-height: 40px;
-        font-size: 20px;
+    .content .title {
+        height: 35px;
+        line-height: 35px;
+        font-size: 16px;
         border-bottom: 1px solid #2f9fff;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
+        width: 83%;
     }
 
-    .content .cbox .title i {
+    .content .cbox {
+        float: left;
+        width: 50%;
+        box-sizing: border-box;
+        padding: 5px 20px;
+        margin-bottom: 5px;
+    }
+
+    .content .title i {
         margin-right: 10px;
         color: #2f9fff;
     }
@@ -692,15 +623,8 @@ h2, h3, h3, h4 {
 
     .content .cbox .cont .cont-in-left > div {
         width: 100%;
-        line-height: 30px;
-        margin-bottom: 10px;
-    }
-
-    .content .cbox {
-        float: left;
-        width: 50%;
-        box-sizing: border-box;
-        padding: 10px 20px 10px 20px;
+        line-height: 22px;
+        margin-bottom: 5px;
     }
 
     .content .cbox .cont .cont-in-left > div > label {
@@ -713,21 +637,11 @@ h2, h3, h3, h4 {
         width: 70%;
         vertical-align: middle;
         display: inline-block;
-        height: 30px;
+        height: 25px;
         border: 1px solid #CCC;
         border-radius: 5px;
         background: #f3f3f3;
         padding: 0 0 0 5px;
-    }
-
-    .content .cbox .cont .cont-in-left > div > select {
-        width: 70%;
-        vertical-align: middle;
-        display: inline-block;
-        height: 30px;
-        border: 1px solid #CCC;
-        border-radius: 5px;
-        background: #f3f3f3;
     }
 
     .content .cbox .cont div > textarea {
@@ -735,7 +649,6 @@ h2, h3, h3, h4 {
         resize: none;
         vertical-align: top;
         display: inline-block;
-        height: 86px;
         border: 1px solid #CCC;
         border-radius: 5px;
         background: #f3f3f3;
@@ -747,14 +660,12 @@ h2, h3, h3, h4 {
         margin-left: 0%;
         text-align: center;
         box-sizing: border-box;
-        padding: 0 20px;
+        padding: 0 10px;
     }
 
     .content .cbox .cont .cont-in-right .inpic {
         background: #fff;
         border: 1px solid #09F;
-        height: 200px;
-        width: 100%;
         display: inline-block;
         background-size: cover;
         display: flex;
@@ -764,28 +675,10 @@ h2, h3, h3, h4 {
         box-shadow: 10px 10px 85px rgba(0, 0, 0, 0.2);
     }
 
-    .content .cbox .cont .cont-in-right .inpic img {
-        width: 100%;
-        height: 100%;
-    }
-
     .content .lfbox {
-        padding: 10px 20px 20px 20px;
+        padding: 5px 20px;
         float: left;
         width: 100%;
-    }
-
-    .content .lfbox .title {
-        height: 40px;
-        line-height: 40px;
-        font-size: 20px;
-        border-bottom: 1px solid #2f9fff;
-        margin-bottom: 10px;
-    }
-
-    .content .lfbox .title i {
-        margin-right: 10px;
-        color: #2f9fff;
     }
 
     .content .lfbox .tabler {
@@ -806,48 +699,15 @@ h2, h3, h3, h4 {
 
     .content .lfbox .tabler table tr td {
         background: #fff;
-        line-height: 30px;
-        width: 100px;
+        line-height: 25px;
+        width: 16.6%;
+        text-align: center;
     }
 
     .content .lfbox .tabler table .th td {
-        width: 100px;
-        text-align: center;
-        font-size: 16px;
+        font-size: 14px;
         color: #fff;
         background: #2f9fff;
-    }
-
-    .content .lfbox .picer {
-        float: left;
-        width: 40%;
-    }
-
-    .content .lfbox .picer div.p1 {
-        width: 58%;
-        height: 200px;
-        background: #eee;
-        float: left;
-        margin-left: 1%;
-        text-align: center;
-    }
-
-    .content .lfbox .picer div.p1 img {
-        height: 200px;
-    }
-
-    .content .lfbox .picer div.p2 {
-        width: 39%;
-        height: 200px;
-        background: #eee;
-        float: left;
-        margin-left: 1%;
-        text-align: center;
-    }
-
-    .content .lfbox .picer div.p2 img {
-        width: 200px;
-        height: 200px;
     }
 
     .footer {
@@ -856,7 +716,8 @@ h2, h3, h3, h4 {
         line-height: 30px;
         padding: 0 20px;
         color: #666;
-        font-size: 14px;
+        font-size: 13px;
+        font-weight: bold;
         position: fixed;
         bottom: 0;
         width: 100%;
@@ -877,14 +738,14 @@ h2, h3, h3, h4 {
     }
 }
 
-@media screen  and (min-width: 1280px){
-    .content .cbox .cont .cont-in-right .inpic {
-        height: 250px;
-    }
-}
+/*@media screen  and (min-width: 1280px){*/
+/*    .content .cbox .cont .cont-in-right .inpic {*/
+/*        height: 250px;*/
+/*    }*/
+/*}*/
 
-@media screen  and (min-width: 1440px){
-    .content .cbox .cont .cont-in-right .inpic {
-        height: 280px;
-    }
-}
+/*@media screen  and (min-width: 1440px){*/
+/*    .content .cbox .cont .cont-in-right .inpic {*/
+/*        height: 280px;*/
+/*    }*/
+/*}*/

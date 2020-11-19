@@ -12,7 +12,7 @@ $(function () {
         flowStarted: false,
         //读取身份证的interval值
         readCardInterval: '-1',
-        readCardIntervalTime: 2000,
+        readCardIntervalTime: shStore.consts.readCardIntervalTime,
         //轮询后台结果的timeout
         waitingTimeout:-1,
         //轮询后台结果的时间,超出则重置页面
@@ -65,18 +65,36 @@ $(function () {
     }
 
     function setTableHeight(){
-        var contentHeight = $('.content').get(0).offsetHeight;
-        var lfposition = $('.lfbox').get(0).offsetTop;
-        var title = $('.lfbox .title').get(0).offsetHeight;
-        var tablerHeader = $('.tabler:first').get(0).offsetHeight;
+        var contentHeight = $('.content').get(0).offsetHeight,
+            lfposition = $('.lfbox').get(0).offsetTop,
+            title = $('.lfbox .title').get(0).offsetHeight,
+            tablerHeader = $('.tabler:first').get(0).offsetHeight;
+
+        //访客表的高度
         var height = contentHeight - lfposition - title - tablerHeader - 20;
         $('.datatable').height(height);
+
+        //如果当前行数不够，填充空白行
+        var cRows = $('.datatable tr').length;
+        //原始html页面有空白行，否则出错
+        var rowHeight = $('.datatable tr:first').height();
+        var totalLines = Math.ceil(height/rowHeight);
+
+        if (cRows  < totalLines) {
+            var blankRow = '<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
+            var _th = $('.recordTable');
+            for (var index = 0; index < totalLines - cRows; index++) {
+                _th.append(blankRow);
+            }
+        }
+        //滚动到最顶端
+        $('.datatable').scrollTop(0);
     }
 
     function handleWSclosed(){
         console.log('handleWSclosed---');
         endReadCardFlow();
-        shStore.popupTool.showErrorWin('Websocket closed.', function(){
+        shStore.popupTool.showErrorWin('重新连接Websocket失败，返回初始页面.', function(){
             forceStopCurrentFlow();
             loadTargetPage('welcome');
         });
@@ -92,6 +110,8 @@ $(function () {
         if (shStore.visitorPage.readCardInterval != -1) {
             window.clearInterval(shStore.visitorPage.readCardInterval);
         }
+        //先执行一次，interval中需要等待readCardIntervalTime后才第一次执行
+        shStore.visitWS.sendReadCardMessage();
         var interval = window.setInterval(shStore.visitWS.sendReadCardMessage, cpage.readCardIntervalTime);
         console.log('Create ReadCard Interval at ' + new Date().toFmtStr() + ' and interval value is ' + interval);
         shStore.visitorPage.readCardInterval = interval;
@@ -107,15 +127,19 @@ $(function () {
         // endReadCardFlow();
 
         var strs = evt.data.split('|#|');
-        // 0|#|* o1：姓名|#|性别|#|民族|#|出生年月日|#|住址|#|公民身份号码|#|签发机关|#|有效期限起始日期|#|有效期限结束日期|#|有效期限|#|预留|#|证件版本号|#|证件类型代码|#|照片
+        // 0|#|成功|姓名|#|性别|#|民族|#|出生年月日|#|住址|#|公民身份号码|#|签发机关|#|有效期限起始日期|#|有效期限结束日期|#|有效期限|#|预留|#|证件版本号|#|证件类型代码|#|照片
         var nVisitor = {
             originalInfo: evt.data,
-            name: strs[1],
-            sex: strs[2],
-            birthDate: strs[4],
-            address: strs[5],
-            idCardNo: strs[6],
-            image: strs[14]
+            name: strs[2],//姓名
+            sex: strs[3],//性别
+            // national: strs[4],//民族
+            birthDate: strs[5],//出生日期
+            address: strs[6],//地址
+            idCardNo: strs[7],//身份证号码
+            organization: strs[8],//发卡机构
+            validStart: strs[9],//有效开始期
+            validEnd: strs[10],//有效截止期
+            image: strs[14]//图像
         };
 
         if(cpage.flowStarted){
@@ -287,7 +311,7 @@ $(function () {
             //TODO WAITINGSEQ
             if(data.code == '0002'){
                 if(checkWaitedTime()){
-                    shStore.popupTool.showErrorWin('超过' + capge.waitingTime/(60*1000) + '分钟没有响应，请重刷身份证', forceStopCurrentFlow);
+                    shStore.popupTool.showErrorWin('超过' + cpage.waitingTime/(60*1000) + '分钟没有响应，请重刷身份证', forceStopCurrentFlow);
                     return;
                 }
                 if(cpage.waitingTimeout != -1){
@@ -331,9 +355,11 @@ $(function () {
         //avoid in case
         window.clearTimeout(cpage.waitingTimeout);
         cpage.waitingTimeout = -1;
-        cpage.visitor.startWaitingTime = null;
+        if(cpage.visitor){
+            cpage.visitor.startWaitingTime = null;
+            cpage.visitor.allDone = false;
+        }
         cpage.erWeiEl = null;
-        cpage.visitor.allDone = false;
         cpage.flowStarted = false;
         cpage.waitingVisitor = [];
         cpage.waitingVisitorEnter = false;
@@ -474,7 +500,6 @@ $(function () {
 
         // $('.recordTable tr:not(.th)').remove();
         var _th = $('.recordTable');
-        var blankRow = '<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
         var template = '<tr><td>time</td><td>visitName</td><td>reason</td><td>name</td><td>grade</td><td>class</td></tr>';
 
         for (var index in records) {
@@ -495,10 +520,6 @@ $(function () {
                     .replace('class', classz)
             );
         }
-        // var totalSize = $('.recordTable tr:not(.th)').length;
-        // //少于5条记录，补空白行
-        // for (var index = 0; index < (5 - cpage.records.length); index++) {
-        //     $('.recordTable').append(blankRow);
-        // }
+        $('.datatable').scrollTop(0);
     }
 });

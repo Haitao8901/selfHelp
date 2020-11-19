@@ -6,8 +6,10 @@ $(function(){
         loadTargetPage("welcome");
         return;
     }
-
+    //标记位，用于重连websocket时的判断
+    shStore.wsReconnecting = false;
     shStore.visitWS = init();
+
     function init(){
         closeCurrentWebSocket();
         var socket = new WebSocket(shStore.consts.websocketUrl);
@@ -67,9 +69,9 @@ $(function(){
 
     function sendOpenDeviceMessage(){
         this.currentAction = 'OPEN';
-        shStore.visitWS.send('open|#|6|#|1001|#|');
-        // this.deviceOpened = true;
-        // shStore.dispatchEvent('OPENDEVICE');
+        // shStore.visitWS.send('open|#|6|#|1001|#|');
+        this.deviceOpened = true;
+        shStore.dispatchEvent('OPENDEVICE');
 
     }
 
@@ -78,9 +80,13 @@ $(function(){
         // var devicePort = shStore.devicePort,
         var devicePort = 0,
             iBaud = 0,
-            timeout = '' + shStore.consts.wetsocketTimeout;
+            timeout = '' + shStore.consts.readCardTimeout;
         var msg = this.readCardMessage.replace('portNo', devicePort).replace('iBaud',iBaud).replace('timeout', timeout);
-        shStore.visitWS.send(msg);
+        if(shStore.visitWS && shStore.visitWS.readyState == 1) {
+            shStore.visitWS.send(msg);
+            return;
+        }
+        console.log('Websocket 未初始化');
     }
 
     function onOpen(){
@@ -89,26 +95,63 @@ $(function(){
     }
 
     function onClose(){
-        console.log('websocket closed.');
-        shStore.dispatchEvent('WSCLOSED');
-        this.deviceOpened = true;
+        if(shStore.closeWindow){
+            shStore.closeWindow = false;
+            return;
+        }
+        if(shStore.wsReconnecting){
+            return;
+        }
+        console.log('websocket closed. Try to reconnect.');
+        // shStore.dispatchEvent('WSCLOSED');
+        var waitTime = shStore.consts.websocketReconnectionTime;
+        shStore.popupTool.showTimeErrorWin('Websocket无法连接，开始尝试重新连接！', (waitTime)/1000);
+        //开始尝试重连
+        shStore.reconnectTime = waitTime;
+        shStore.reconnectTimeout = -1;
+        shStore.reconnectStartTime = new Date().getTime();
+        shStore.wsReconnecting = true;
+        reconnection();
     }
 
     function onError(error){
+        //error后触发close事件，统一在close中处理
         console.log('websocket Error happened. Error is ' + error);
     }
 
-    function reConnect(){
+    function reconnection(){
+        var socket = shStore.visitWS;
+        if(!socket || new Date().beyondDefinedTime(shStore.reconnectStartTime, shStore.reconnectTime)){
+            $('.sysModal').modal('hide');
+            shStore.popupTool.showSuccessWin('Websocket连接成功！');
+            window.clearTimeout(shStore.reconnectTimeout);
+            shStore.wsReconnecting = false;
+            shStore.dispatchEvent('WSCLOSED');
+            return;
+        }
+
+        if (socket.readyState == 1) {
+            $('.sysModal').modal('hide');
+            window.clearTimeout(shStore.reconnectTimeout);
+            shStore.reconnectTimeout = -1;
+            shStore.wsReconnecting = false;
+            return;
+        }
+
+        if (socket.readyState == 3) {
+            shStore.visitWS = init();
+        }
+        shStore.reconnectTimeout = setTimeout(reconnection, 3000);
     }
 
     function closeCurrentWebSocket(){
-        if(shStore.visitWS){
+        if(shStore.visitWS && shStore.visitWS.readyState == 1){
             try{
                 shStore.visitWS.close();
             }catch (e) {
                 console.log("Error happened when close webSocket.");
             }
-            shStore.visitWS = null;
         }
+        shStore.visitWS = null;
     }
 });

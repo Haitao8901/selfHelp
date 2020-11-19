@@ -2,6 +2,7 @@ $(function () {
     loadTargetPage("welcome");
     window.onbeforeunload = function(){
         console.log('close window.');
+        shStore.closeWindow = true;
         if(shStore.visitWS){
             try{
                 shStore.visitWS.close();

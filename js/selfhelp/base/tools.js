@@ -1,9 +1,12 @@
 shStore.consts = {
     baseUrl: 'http://192.168.43.31:8008/api/',
     basePagePath: 'pages/',
-    // websocketUrl: 'ws://localhost:8085',
-    websocketUrl: 'ws://localhost:8008/webSocket/msg',
-    wetsocketTimeout: 3,
+    websocketUrl: 'ws://192.168.43.31:8085',
+    // websocketUrl: 'ws://192.168.43.31:8008/webSocket/msg',
+    readCardTimeout: 30,
+    //尝试重新连接Websocket的等待时间
+    websocketReconnectionTime: 1 * 60 * 1000,
+    readCardIntervalTime: 32 * 1000,
 
     VISIT_ACTION: 'visit',
     VISIT_TRANCODE_QUERYDEVICE: 'queryDevice',
@@ -104,6 +107,9 @@ shStore.popupTool = {
             showTimeCount();
         }
         return _this;
+    },
+    showTimeErrorWin: function (message, totalTime, callback) {
+        this.showModalWin('error', message, true, totalTime, callback);
     },
     showErrorWin: function (message, callback) {
         this.showModalWin('error', message, true, 5, callback);

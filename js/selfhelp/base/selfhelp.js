@@ -22,7 +22,7 @@ var shStore = {
             }
         }
     },
-    clearEventListener: function(eventName){
+    clearEventListener: function (eventName) {
         for (var index in this.eventListeners) {
             var eventObj = this.eventListeners[index];
             if (eventName == eventObj.name) {
@@ -61,6 +61,30 @@ var shStore = {
 }
 
 function sendRequest(suffix, method, data, callback, errorCallback) {
+    if (typeof Promise == 'undefined') {
+        $.ajax({
+                url: shStore.consts.baseUrl + (suffix ? suffix : ''),
+                method: method ? method : 'post',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (response) {
+                    shStore.progress.hide();
+                    response = {data: response};
+                    console.log('Server response is: ' + response);
+                    callback && callback(response);
+                },
+                error: function (error) {
+                    shStore.progress.hide();
+                    console.log(error);
+                    error.message = error.status + '-' + error.statusText;
+                    errorCallback && errorCallback(error);
+                }
+            }
+        );
+        return;
+    }
+
     var axiosParam = {};
     axiosParam.url = shStore.consts.baseUrl + (suffix ? suffix : '');
     axiosParam.method = method ? method : 'post';
@@ -120,11 +144,11 @@ Date.prototype.toRequestSeq = function () {
     return '' + y
         + (m < 10 ? "0" + m : m)
         + (d < 10 ? "0" + d : d)
-        + this.toTimeString().substr(0, 8).replaceAll(':', '');
+        + this.toTimeString().substr(0, 8).replace(/:/ig, '');
 }
 
 Date.prototype.beyondDefinedTime = function (startedTime, definedTime) {
-    if(!startedTime){
+    if (!startedTime) {
         return false;
     }
     var current = this.getTime();
