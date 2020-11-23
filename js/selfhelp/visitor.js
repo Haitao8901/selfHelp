@@ -10,9 +10,9 @@ $(function () {
         //标记位当前整个流程是否已经完成
         //未完成则忽略再次读到的身份证信息
         flowStarted: false,
-        //读取身份证的interval值
-        readCardInterval: '-1',
-        readCardIntervalTime: shStore.consts.readCardIntervalTime,
+        // 读取身份证的interval值
+        // readCardInterval: '-1',
+        // readCardIntervalTime: shStore.consts.readCardIntervalTime,
         //轮询后台结果的timeout
         waitingTimeout:-1,
         //轮询后台结果的时间,超出则重置页面
@@ -116,19 +116,21 @@ $(function () {
     }
 
     function startReadCardFlow() {
-        if (shStore.visitorPage.readCardInterval != -1) {
-            window.clearInterval(shStore.visitorPage.readCardInterval);
-        }
-        //先执行一次，interval中需要等待readCardIntervalTime后才第一次执行
+        // if (shStore.visitorPage.readCardInterval != -1) {
+        //     window.clearInterval(shStore.visitorPage.readCardInterval);
+        // }
+        // //先执行一次，interval中需要等待readCardIntervalTime后才第一次执行
+        // shStore.visitWS.sendReadCardMessage();
+        // var interval = window.setInterval(shStore.visitWS.sendReadCardMessage, cpage.readCardIntervalTime);
+        // console.log('Create ReadCard Interval at ' + new Date().toFmtStr() + ' and interval value is ' + interval);
+        // shStore.visitorPage.readCardInterval = interval;
+
         shStore.visitWS.sendReadCardMessage();
-        var interval = window.setInterval(shStore.visitWS.sendReadCardMessage, cpage.readCardIntervalTime);
-        console.log('Create ReadCard Interval at ' + new Date().toFmtStr() + ' and interval value is ' + interval);
-        shStore.visitorPage.readCardInterval = interval;
     }
 
     function endReadCardFlow() {
-        console.log('Clear ReadCard interval  and interval value is ' + shStore.visitorPage.readCardInterval);
-        window.clearInterval(shStore.visitorPage.readCardInterval);
+        // console.log('Clear ReadCard interval  and interval value is ' + shStore.visitorPage.readCardInterval);
+        // window.clearInterval(shStore.visitorPage.readCardInterval);
     }
 
     function handleCardInfoReady(evt) {
@@ -202,41 +204,58 @@ $(function () {
 
     function queryIdCard() {
         var visitor = cpage.visitor;
-        var requestSeq = new Date().toRequestSeq();
+        // var requestSeq = new Date().toRequestSeq();
         var requestData = {
-            TellerName: '',
-            ACTION: '',
-            TranCode: '',
-            BRANCHCODE: '',
-            "requestSeq": requestSeq,
-            "description": "查询身份证信息",
-            "deviceNo": shStore.visitorPage.deviceNo,
-            "visitType": visitor.type,
-            "chineseName": visitor.name,
-            "englishName": "",
-            "birthDate": visitor.birthDate,
-            "idCardNo": visitor.idCardNo,
-            "idCardImage": visitor.image,
-            "capturedImage": "",
-            "remarks": ""
+            TranCode: shStore.consts.VISIT_TRANCODE,
+            ACTION: shStore.consts.VISIT_ACTION_QUERYCHILDREN,
+            TellerName: shStore.consts.VISIT_TellerName,
+            BRANCHCODE: shStore.consts.VISIT_BRANCHCODE,
+            "CHINESE_NAME": visitor.name,
+            "ID_CARDNO": visitor.idCardNo,
+            "SEX": visitor.sex,
+            "ADDRESS": visitor.address,
+            "TB_CODE": shStore.tbCode,
+            "DEVICE_NO": shStore.deviceNo,
+            "PHOTO": visitor.image,
+            // "birthDate": visitor.birthDate,
+            // "requestSeq": requestSeq,
+            // "englishName": "",
+            // "description": "查询身份证信息",
+            // "visitType": visitor.type,
+            // "capturedImage": "",
+            // "remarks": ""
         }
-        sendRequest('queryIdCard', 'post', requestData, afterRequest, errorCallback);
+        sendRequest(shStore.consts.VISIT_ACTION_QUERYCHILDREN, 'post', requestData, afterRequest, errorCallback);
 
         function afterRequest(response) {
-            // {"trancode": "","action": "","code": "","status": "","visitStatus": "","visitStatusDesc": "","remarks":""}
-            if (response.data.code == '0000') {
-                //TODO 暂时以此次成功请求的requestSeq作为后续跟踪的waitingSeq
-                cpage.visitor.waitingSeq = requestSeq;
-                shStore.dispatchEvent('FETCHERWEIPICTURE', response.data);
+            //my old logic
+            // // {"trancode": "","action": "","code": "","status": "","visitStatus": "","visitStatusDesc": "","remarks":""}
+            // if (response.data.code == '0000') {
+            //     cpage.visitor.waitingSeq = requestSeq;
+            //     shStore.dispatchEvent('FETCHERWEIPICTURE', response.data);
+            //     return;
+            // }
+            // //TODO show error info
+            // var errorStr = 'QueryIdCard error. ' + response.data.code + '---' + response.data.status;
+            // shStore.popupTool.showErrorWin(errorStr, forceStopCurrentFlow);
+
+            var code = response.data.CODE;
+            var message = response.data.MESSAGE;
+            if(code == '0000'){
+                cpage.visitor.waitingSeq = response.data.VI_ID;
+                cpage.visitor.erWeiImageStr = response.data.image;
+                cpage.visitor.visitStatusDesc = '';
+                cpage.waitingVisitor.push($.extend({}, cpage.visitor));
+                showErWeiImage(cpage.visitor.visitStatusDesc, response.data.QR_IMG_PATH, false, 60);
+                shStore.dispatchEvent('STARTWAITING');
                 return;
             }
-            //TODO show error info
-            var errorStr = 'QueryIdCard error. ' + response.data.code + '---' + response.data.status;
-            shStore.popupTool.showErrorWin(errorStr, forceStopCurrentFlow);
+
+            shStore.popupTool.showErrorWin('' + code + '---' + message, forceStopCurrentFlow);
         }
 
         function errorCallback(error) {
-            shStore.popupTool.showErrorWin('QueryIdCard error---' + error.message, forceStopCurrentFlow);
+            shStore.popupTool.showErrorWin('查询失败---' + error.message, forceStopCurrentFlow);
         }
     }
 

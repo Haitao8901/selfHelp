@@ -60,6 +60,7 @@ $(function(){
             if(code == '0'){
                 shStore.dispatchEvent('CARDINFOREADY', str);
             }
+            this.sendReadCardMessage();
         }
     }
 

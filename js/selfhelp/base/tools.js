@@ -6,13 +6,15 @@ shStore.consts = {
     readCardTimeout: 30,
     //尝试重新连接Websocket的等待时间
     websocketReconnectionTime: 1.5 * 60 * 1000,
-    readCardIntervalTime: 32 * 1000,
+    readCardIntervalTime: 40 * 1000,
 
-    VISIT_ACTION: 'visit',
-    VISIT_TRANCODE_QUERYDEVICE: 'queryDevice',
-    VISIT_TRANCODE_QUERYERWEICODE: 'queryErWei',
-    VISIT_TRANCODE_QUERYIDCARD: 'queryIdCard',
-    VISIT_TRANCODE_WAITINGRESPONSE: 'waitingResult',
+    VISIT_TRANCODE: '1048',
+    VISIT_ACTION_QUERYDEVICE: 'QUERY',
+    VISIT_ACTION_QUERYCHILDREN: 'CHILDREN',
+    VISIT_ACTION_QUERYERWEICODE: 'queryErWei',
+    VISIT_ACTION_WAITINGRESPONSE: 'waitingResult',
+    VISIT_TellerName: '999997',
+    VISIT_BRANCHCODE: '9999'
 }
 shStore.progress = {
     initialed: false,
