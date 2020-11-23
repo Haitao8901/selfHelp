@@ -62,6 +62,10 @@ $(function () {
         shStore.addEvents('WSCLOSED');
         shStore.clearEventListener('WSCLOSED');
         shStore.addEventListener('WSCLOSED', handleWSclosed);
+
+        shStore.addEvents('STOPREADCARD');
+        shStore.clearEventListener('STOPREADCARD');
+        shStore.addEventListener('STOPREADCARD', handleStopReadCard);
     }
 
     function setTableHeight(){
@@ -89,6 +93,11 @@ $(function () {
         }
         //滚动到最顶端
         $('.datatable').scrollTop(0);
+    }
+
+    function handleStopReadCard(){
+        console.log('handleStopReadCard---');
+        endReadCardFlow();
     }
 
     function handleWSclosed(){

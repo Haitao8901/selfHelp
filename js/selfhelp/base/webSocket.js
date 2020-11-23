@@ -91,24 +91,37 @@ $(function(){
 
     function onOpen(){
         console.log('websocket connected, url is ' + shStore.consts.websocketUrl);
+        if(shStore.wsReconnecting){
+            $('.sysModal').modal('hide');
+            shStore.wsReconnecting = false;
+            shStore.reconnectStartTime = 0;
+        }
         sendOpenDeviceMessage();
     }
 
     function onClose(){
+        //停止读卡
+        shStore.dispatchEvent('STOPREADCARD');
         if(shStore.closeWindow){
             shStore.closeWindow = false;
             return;
         }
         if(shStore.wsReconnecting){
+            //是否超过等待重连时间
+            if(new Date().beyondDefinedTime(shStore.reconnectStartTime, shStore.reconnectTime)){
+                $('.sysModal').modal('hide');
+                shStore.wsReconnecting = false;
+                shStore.dispatchEvent('WSCLOSED');
+                return;
+            }
+            reconnection();
             return;
         }
         console.log('websocket closed. Try to reconnect.');
-        // shStore.dispatchEvent('WSCLOSED');
         var waitTime = shStore.consts.websocketReconnectionTime;
         shStore.popupTool.showTimeErrorWin('Websocket无法连接，开始尝试重新连接！', (waitTime)/1000);
         //开始尝试重连
         shStore.reconnectTime = waitTime;
-        shStore.reconnectTimeout = -1;
         shStore.reconnectStartTime = new Date().getTime();
         shStore.wsReconnecting = true;
         reconnection();
@@ -121,27 +134,9 @@ $(function(){
 
     function reconnection(){
         var socket = shStore.visitWS;
-        if(!socket || new Date().beyondDefinedTime(shStore.reconnectStartTime, shStore.reconnectTime)){
-            $('.sysModal').modal('hide');
-            shStore.popupTool.showSuccessWin('Websocket连接成功！');
-            window.clearTimeout(shStore.reconnectTimeout);
-            shStore.wsReconnecting = false;
-            shStore.dispatchEvent('WSCLOSED');
-            return;
-        }
-
-        if (socket.readyState == 1) {
-            $('.sysModal').modal('hide');
-            window.clearTimeout(shStore.reconnectTimeout);
-            shStore.reconnectTimeout = -1;
-            shStore.wsReconnecting = false;
-            return;
-        }
-
         if (socket.readyState == 3) {
             shStore.visitWS = init();
         }
-        shStore.reconnectTimeout = setTimeout(reconnection, 3000);
     }
 
     function closeCurrentWebSocket(){

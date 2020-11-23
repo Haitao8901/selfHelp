@@ -5,7 +5,7 @@ shStore.consts = {
     // websocketUrl: 'ws://192.168.43.31:8008/webSocket/msg',
     readCardTimeout: 30,
     //尝试重新连接Websocket的等待时间
-    websocketReconnectionTime: 1 * 60 * 1000,
+    websocketReconnectionTime: 1.5 * 60 * 1000,
     readCardIntervalTime: 32 * 1000,
 
     VISIT_ACTION: 'visit',
