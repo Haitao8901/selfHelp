@@ -179,7 +179,8 @@ $(function () {
         if(waited){
             if(!checkWaitedTime()){
                 //没有超过等待时间则直接显示二维码并查询后台结果
-                showErWeiImage(cpage.visitor.visitStatusDesc, cpage.visitor.erWeiImageStr, false, 60);
+                var imagePath = shStore.getVisitImagePath(cpage.visitor.erWeiImageStr, shStore.tbCode, shStore.consts.VISIT_BRANCHCODE);
+                showErWeiImage(cpage.visitor.visitStatusDesc, imagePath, false, 60);
                 cpage.waitingTimeout = window.setTimeout(waitingServerResponse, 2000);
                 return;
             }
@@ -204,7 +205,10 @@ $(function () {
 
     function queryIdCard() {
         var visitor = cpage.visitor;
-        // var requestSeq = new Date().toRequestSeq();
+        var sex = visitor.sex == '男'? 1 : 2;
+        // var photo = visitor.image;
+        var photo = '';
+
         var requestData = {
             TranCode: shStore.consts.VISIT_TRANCODE,
             ACTION: shStore.consts.VISIT_ACTION_QUERYCHILDREN,
@@ -212,45 +216,42 @@ $(function () {
             BRANCHCODE: shStore.consts.VISIT_BRANCHCODE,
             "CHINESE_NAME": visitor.name,
             "ID_CARDNO": visitor.idCardNo,
-            "SEX": visitor.sex,
+            "SEX": sex,
             "ADDRESS": visitor.address,
             "TB_CODE": shStore.tbCode,
             "DEVICE_NO": shStore.deviceNo,
-            "PHOTO": visitor.image,
-            // "birthDate": visitor.birthDate,
-            // "requestSeq": requestSeq,
-            // "englishName": "",
-            // "description": "查询身份证信息",
-            // "visitType": visitor.type,
-            // "capturedImage": "",
-            // "remarks": ""
+            "PHOTO": photo,
         }
-        sendRequest(shStore.consts.VISIT_ACTION_QUERYCHILDREN, 'post', requestData, afterRequest, errorCallback);
+
+        var suffix = shStore.consts.VISIT_TRANCODE + '/' + shStore.consts.VISIT_ACTION_QUERYCHILDREN;
+        sendRequest(suffix, 'post', requestData, afterRequest, errorCallback);
 
         function afterRequest(response) {
-            //my old logic
-            // // {"trancode": "","action": "","code": "","status": "","visitStatus": "","visitStatusDesc": "","remarks":""}
-            // if (response.data.code == '0000') {
-            //     cpage.visitor.waitingSeq = requestSeq;
-            //     shStore.dispatchEvent('FETCHERWEIPICTURE', response.data);
-            //     return;
-            // }
-            // //TODO show error info
-            // var errorStr = 'QueryIdCard error. ' + response.data.code + '---' + response.data.status;
-            // shStore.popupTool.showErrorWin(errorStr, forceStopCurrentFlow);
+            //{"MESSAGE":"SUCCESS!",
+            // "CODE":"0000",
+            // "DEVICE_NO":"10020701",
+            // "ERRMSG":"交易成功",
+            // "VI_ID":"1600002007426805",
+            // "QR_IMG_PATH":"433125199501253919.jpg",
+            // "TB_CODE":"1002",
+            // "ERRCODE":"0000"}
 
             var code = response.data.CODE;
             var message = response.data.MESSAGE;
             if(code == '0000'){
                 cpage.visitor.waitingSeq = response.data.VI_ID;
-                cpage.visitor.erWeiImageStr = response.data.image;
+                cpage.visitor.erWeiImageStr = response.data.QR_IMG_PATH;
                 cpage.visitor.visitStatusDesc = '';
                 cpage.waitingVisitor.push($.extend({}, cpage.visitor));
-                showErWeiImage(cpage.visitor.visitStatusDesc, response.data.QR_IMG_PATH, false, 60);
+                var imagePath = shStore.getVisitImagePath(cpage.visitor.erWeiImageStr, shStore.tbCode, shStore.consts.VISIT_BRANCHCODE);
+                showErWeiImage(cpage.visitor.visitStatusDesc, imagePath, false, 60);
                 shStore.dispatchEvent('STARTWAITING');
                 return;
             }
-
+            if(!code){
+                code = response.data.ERRCODE;
+                message = response.data.ERRMSG;
+            }
             shStore.popupTool.showErrorWin('' + code + '---' + message, forceStopCurrentFlow);
         }
 
@@ -271,7 +272,7 @@ $(function () {
             "description": "获取二维码",
             "type": cpage.visitor.visitStatus,
             "typeDescription": cpage.visitor.visitStatusDesc,
-            " deviceNo ": shStore.deviceNo,
+            "deviceNo": shStore.deviceNo,
             "idCardNo": cpage.visitor.idCardNo,
             "remarks":""
         }
@@ -296,7 +297,7 @@ $(function () {
     }
 
     function showErWeiImage(desc, imageStr, autoClose, totalTime) {
-        cpage.erWeiEl = shStore.popupTool.showImageModal(desc, '请扫描以下二维码完成后续操作', imageStr, autoClose, totalTime)
+        cpage.erWeiEl = shStore.popupTool.showImageModal(desc? desc : '', '请扫描以下二维码完成后续操作', imageStr, autoClose, totalTime)
     }
 
     function handleStartWaiting(evt) {
@@ -313,31 +314,36 @@ $(function () {
     function waitingServerResponse() {
         var visitor = cpage.visitor;
         var requestData = {
-            TellerName: '',
-            ACTION: '',
-            TranCode: '',
-            BRANCHCODE: '',
-            "requestSeq": new Date().toRequestSeq(),
-            "waitingSeq": visitor.waitingSeq,
-            "description": "等待结果",
-            "idCardNo": visitor.idCardNo,
-            "deviceNo": shStore.deviceNo,
-            "remarks":""
+            TranCode: shStore.consts.VISIT_TRANCODE,
+            ACTION: shStore.consts.VISIT_ACTION_WAITINGRESPONSE,
+            TellerName: shStore.consts.VISIT_TellerName,
+            BRANCHCODE: shStore.consts.VISIT_BRANCHCODE,
+            "VI_ID": visitor.waitingSeq,
+            "TB_CODE": shStore.tbCode
         }
-        sendRequest('waitingResult', 'post', requestData, afterRequest, errorCallback);
+
+        var suffix = shStore.consts.VISIT_TRANCODE + '/' + shStore.consts.VISIT_ACTION_WAITINGRESPONSE;
+        sendRequest(suffix, 'post', requestData, afterRequest, errorCallback);
 
         function afterRequest(response) {
             var data = response.data;
-            if (data.code == '0000') {
-                fillOthersInfo(data);
-                fillVisitTargetInfo(data.visitTarget);
-                fillChildrenInfo(data.children);
-                fillHistoryRecords(data.historyVisitRecords);
-                shStore.dispatchEvent('ENDWAITING');
+            var code = data.CODE;
+            var status = data.STATUS;
+            var message = data.MESSAGE;
+
+            if (code == '0000') {
+                if(status == 1) {
+                    fillOthersInfo(data);
+                    fillVisitTargetInfo(data);
+                    // fillChildrenInfo(data);
+                    fillHistoryRecords(data);
+                    shStore.dispatchEvent('ENDWAITING');
+                    return;
+                }
+                shStore.popupTool.showErrorWin('Error: ' + code + '---' + status + '---' + message, forceStopCurrentFlow);
                 return;
             }
-            //TODO WAITINGSEQ
-            if(data.code == '0002'){
+            if(code == '4003' || code == '4004' || code == '4005' ) {
                 if(checkWaitedTime()){
                     shStore.popupTool.showErrorWin('超过' + cpage.waitingTime/(60*1000) + '分钟没有响应，请重刷身份证', forceStopCurrentFlow);
                     return;
@@ -348,7 +354,8 @@ $(function () {
                 cpage.waitingTimeout = window.setTimeout(waitingServerResponse, 3000);
                 return;
             }
-            var errorStr = 'WaitingResult error. ' + response.data.code + '---' + response.data.status;
+
+            var errorStr = 'WaitingResult error. ' + code + '---' + status + '---' + message;
             shStore.popupTool.showErrorWin(errorStr, forceStopCurrentFlow);
         }
 
@@ -475,25 +482,33 @@ $(function () {
 
     function fillOthersInfo(data) {
         var visitor = cpage.visitor;
-        visitor.visitType = data.visitType;
-        visitor.visitReason = data.visitReason;
-        visitor.remark = data.remark;
+        visitor.visitType = data.VI_VISITORTYPE;
+        visitor.visitReason = data.VI_VISITORCAUSE;
+        visitor.remark = data.VI_VISITORREMARK;
 
         //cType creason cremark
-        $('.cType').val(visitor.visitType);
-        $('.creason').val(visitor.visitReason);
+        //P:家长O:其他
+        var ctype = visitor.visitType == 'P' ? '家长':'其他';
+        //S:探访V:拜访W:办事
+        var creason = visitor.visitReason == 'S' ? '探访':(visitor.visitReason == 'V' ? '拜访' : '办事');
+        $('.cType').val(ctype);
+        $('.creason').val(creason);
         $('.cremark').val(visitor.remark);
     }
 
-    function fillVisitTargetInfo(target) {
-        if (!target) {
-            return;
-        }
-        $('.cname').val(target.name);
-        $('.cgrade').val(target.grade);
-        $('.cclass').val(target.class);
-        if(target.image){
-            $('.cimage').attr('src', 'data:image/png;base64,' + target.image);
+    function fillVisitTargetInfo(data) {
+        var cname = data.CI_NAME;
+        var cgrade = data.CI_ENTERYEAR;
+        var cclass = data.CI_CLASS;
+        var imagePath = data.CI_PHOTO_PATH;
+
+        $('.cname').val(cname);
+        $('.cgrade').val(cgrade);
+        $('.cclass').val(cclass);
+
+        imagePath = shStore.getVisitImagePath(imagePath, shStore.tbCode, shStore.consts.VISIT_BRANCHCODE);
+        if(imagePath){
+            $('.cimage').attr('src', imagePath);
         }else{
             $('.cimage').attr('src', 'images/tx.png');
         }
@@ -519,10 +534,22 @@ $(function () {
         }
     }
 
-    function fillHistoryRecords(records) {
-        if(!records){
-            return;
-        }
+    function fillHistoryRecords(data) {
+        //P:家长O:其他
+        var ctype = visitor.visitType == 'P' ? '家长':'其他';
+        //S:探访V:拜访W:办事
+        var creason = visitor.visitReason == 'S' ? '探访':(visitor.visitReason == 'V' ? '拜访' : '办事');
+
+        var records = [];
+        records.push({
+            visitName:data.VI_NAME,
+            visitTime:data.VI_DATE,
+            visitReason:creason,
+            name:data.CI_NAME,
+            grade:data.CI_ENTERYEAR,
+            class:data.CI_CLASS
+        });
+
         //添加到访客记录队列里
         cpage.records.splice(0, 0, records);
 

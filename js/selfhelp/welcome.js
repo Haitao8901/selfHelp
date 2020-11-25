@@ -12,7 +12,6 @@ $(function(){
         shStore.events = [];
         shStore.eventListeners = [];
     }
-
     $('#deviceNo').on('change', function(){
         shStore.deviceNo = $(this).val();
     });
@@ -28,6 +27,10 @@ $(function(){
 
     function queryDeviceInfo(){
         var deviceNo = $('#deviceNo').val();
+        //just for test
+        if(shStore.environment != 'prod'){
+            deviceNo = '10020701';
+        }
         var data = {
             TellerName: shStore.consts.VISIT_TellerName,
             ACTION: shStore.consts.VISIT_ACTION_QUERYDEVICE,
@@ -38,12 +41,23 @@ $(function(){
             "DEVICE_NO": deviceNo,
             // "remarks":""
         }
-        sendRequest(shStore.consts.VISIT_ACTION_QUERYDEVICE,'post', data, afterRequest, errorCallback);
+        var suffix = shStore.consts.VISIT_TRANCODE + '/' + shStore.consts.VISIT_ACTION_QUERYDEVICE;
+        sendRequest(suffix,'post', data, afterRequest, errorCallback);
     }
 
     function afterRequest(response){
         console.log(response);
-        if(response.data.CODE == '0'){
+        var code = response.data.CODE;
+        var message = response.data.MESSAGE;
+        //{"MESSAGE":"查询设备成功!",
+        // "CODE":"0000",
+        // "DEVICE_NO":"10020701",
+        // "ERRMSG":"交易成功",
+        // "TB_NAME":"湘乡树人中学",
+        // "ADDRESS":"DC_NAME",
+        // "TB_CODE":"1002",
+        // "ERRCODE":"0000"}
+        if(code == '0000'){
             shStore.deviceNo = response.data.DEVICE_NO;
             shStore.location = response.data.ADDRESS;
             shStore.school = response.data.TB_NAME;
@@ -51,8 +65,11 @@ $(function(){
             loadTargetPage('visitor');
             return;
         }
-
-        shStore.popupTool.showErrorWin(response.data.CODE + '---' + response.data.MESSAGE);
+        if(!code){
+            code = response.data.ERRCODE;
+            message = response.data.ERRMSG;
+        }
+        shStore.popupTool.showErrorWin(code + '---' + message);
     }
 
     function errorCallback(error){
