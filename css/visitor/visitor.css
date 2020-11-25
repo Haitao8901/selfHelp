@@ -47,8 +47,8 @@ h2, h3, h3, h4 {
 
 /*读卡器读到的图片分辨率为 102* 126 */
 .content .cbox .inpic  {
-    width: 160px !important;
-    height: 180px !important;
+    width: 160px;
+    height: 180px;
 }
 
 .content .cbox .inpic img {
@@ -166,7 +166,7 @@ h2, h3, h3, h4 {
 
     .content .cbox {
         float: left;
-        width: 100%;
+        width: 50%;
         /*height: 33%;*/
         box-sizing: border-box;
         padding: 5px 20px 5px 20px;
@@ -219,6 +219,11 @@ h2, h3, h3, h4 {
         overflow: hidden;
         border-radius: 5px;
         box-shadow: 10px 10px 85px rgba(0, 0, 0, 0.2);
+    }
+
+    .content .cbox .inpic  {
+        width: 150px;
+        height: 180px;
     }
 
     .content .lfbox {
@@ -284,7 +289,67 @@ h2, h3, h3, h4 {
     }
 }
 
-@media screen and (max-width: 540px) {
+@media screen and (max-width: 850px) {
+    .content .cbox {
+        float: left;
+        width: 50%;
+        /*height: 33%;*/
+        box-sizing: border-box;
+        padding: 5px 20px 5px 20px;
+        margin-bottom: 8px;
+        overflow-x: auto;
+    }
+
+    .content .cbox .cont .cont-in-left > div > label {
+        width: 30%;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    .content .cbox .inpic {
+        width: 130px;
+        height: 165px;
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .content .cbox {
+        float: left;
+        width: 50%;
+        /*height: 33%;*/
+        box-sizing: border-box;
+        padding: 5px 20px 5px 20px;
+        margin-bottom: 8px;
+        overflow-x: auto;
+    }
+
+    .content .cbox .cont .cont-in-left > div > label {
+        width: 45%;
+        margin-bottom: 0;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    .content .cbox .cont .cont-in-left > div > input {
+        width: 95%;
+    }
+
+    .content .cbox .cont div > textarea {
+        width: 95%;
+    }
+
+    .content .cbox .cont .cont-in-left > div {
+        line-height: 16px;
+    }
+
+    .content .cbox .inpic {
+        width: 100px;
+        height: 130px;
+    }
+
+}
+
+@media screen and (max-width: 550px) {
     .main {
     }
 
@@ -384,8 +449,8 @@ h2, h3, h3, h4 {
 
     .content .cbox .cont .cont-in-left > div {
         width: 100%;
-        line-height: 20px;
-        margin-bottom: 5px;
+         line-height: 16px;
+        margin-bottom: 2px;
     }
 
     .content .cbox {
@@ -407,7 +472,7 @@ h2, h3, h3, h4 {
         width: 70%;
         vertical-align: middle;
         display: inline-block;
-        height: 25px;
+        height: 20px;
         border: 1px solid #CCC;
         border-radius: 5px;
         background: #f3f3f3;
@@ -437,8 +502,8 @@ h2, h3, h3, h4 {
     .content .cbox .cont .cont-in-right .inpic {
         background: #fff;
         border: 1px solid #09F;
-        height: 180px;
-        width: 100%;
+        height: 140px;
+        width: 115px;
         display: inline-block;
         background-size: cover;
         display: flex;

@@ -53,6 +53,11 @@ body {
         max-height: 400px;
         max-width: 400px;
     }
+
+    .modal-content img {
+        width: 300px;
+        height: 300px;
+    }
 }
 
 @media screen and (min-width: 1280px) {
@@ -76,6 +81,11 @@ body {
         margin-top: 20%;
         max-width: 350px;
         max-height: 350px;
+    }
+
+    .modal-content img {
+        width: 260px;
+        height: 260px;
     }
 }
 

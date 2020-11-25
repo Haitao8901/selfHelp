@@ -181,7 +181,7 @@ $(function () {
                 //没有超过等待时间则直接显示二维码并查询后台结果
                 var imagePath = shStore.getVisitImagePath(cpage.visitor.erWeiImageStr, shStore.tbCode, shStore.consts.VISIT_BRANCHCODE);
                 showErWeiImage(cpage.visitor.visitStatusDesc, imagePath, false, 60);
-                cpage.waitingTimeout = window.setTimeout(waitingServerResponse, 2000);
+                shStore.dispatchEvent('STARTWAITING');
                 return;
             }
         }
@@ -242,7 +242,17 @@ $(function () {
                 cpage.visitor.waitingSeq = response.data.VI_ID;
                 cpage.visitor.erWeiImageStr = response.data.QR_IMG_PATH;
                 cpage.visitor.visitStatusDesc = '';
-                cpage.waitingVisitor.push($.extend({}, cpage.visitor));
+
+                var found = false;
+                var idCardNo = cpage.visitor.idCardNo;
+                for(var i in cpage.waitingVisitor.length){
+                    var oldOne = cpage.waitingVisitor.length[i];
+                    if(oldOne.idCardNo == idCardNo){
+                        found = true;
+                    }
+                }
+                if(!found) cpage.waitingVisitor.push(visitor);
+
                 var imagePath = shStore.getVisitImagePath(cpage.visitor.erWeiImageStr, shStore.tbCode, shStore.consts.VISIT_BRANCHCODE);
                 showErWeiImage(cpage.visitor.visitStatusDesc, imagePath, false, 60);
                 shStore.dispatchEvent('STARTWAITING');
@@ -345,7 +355,8 @@ $(function () {
             }
             if(code == '4003' || code == '4004' || code == '4005' ) {
                 if(checkWaitedTime()){
-                    shStore.popupTool.showErrorWin('超过' + cpage.waitingTime/(60*1000) + '分钟没有响应，请重刷身份证', forceStopCurrentFlow);
+                    cpage.waitingTooLong = true;
+                    shStore.popupTool.showErrorWin('超过' + cpage.waitingTime/(60*1000) + '分钟等待时间，请重刷身份证', forceStopCurrentFlow);
                     return;
                 }
                 if(cpage.waitingTimeout != -1){
@@ -396,7 +407,10 @@ $(function () {
         }
         cpage.erWeiEl = null;
         cpage.flowStarted = false;
-        cpage.waitingVisitor = [];
+        if(!cpage.waitingTooLong){
+            cpage.waitingVisitor = [];
+        }
+        cpage.waitingTooLong = false;
         cpage.waitingVisitorEnter = false;
         resetPage();
     }
@@ -422,7 +436,7 @@ $(function () {
             }
         }
 
-        if(targetIndex > 0){
+        if(targetIndex >= 0){
             return (cpage.waitingVisitor[index]);
         }
         return null;

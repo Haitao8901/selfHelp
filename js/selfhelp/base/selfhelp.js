@@ -75,7 +75,7 @@ shStore.consts = {
     websocketReconnectionTime: 1.5 * 60 * 1000,
     readCardIntervalTime: 40 * 1000,
 
-    PIC_TRANCODE: '007',
+    PIC_TRANCODE: '0007',
     PIC_ACTION:'GETQR',
 
     VISIT_TRANCODE: '1048',
@@ -89,7 +89,7 @@ shStore.consts = {
 
 shStore.getVisitImagePath = function(QR_IMG_PATH, TB_CODE, BRANCHCODE){
     if(QR_IMG_PATH) {
-        var prefixUrl = shStore.getBaseUrl() + shStore.consts.PIC_TRANCODE + shStore.consts.PIC_ACTION;
+        var prefixUrl = shStore.getBaseUrl() + shStore.consts.PIC_TRANCODE + '/' +  shStore.consts.PIC_ACTION;
         var suffixUrl = '?TB_CODE=' + TB_CODE + '&BRANCHCODE=' + BRANCHCODE + '&QR_IMG_PATH=' + QR_IMG_PATH;
         return prefixUrl + suffixUrl;
     }
