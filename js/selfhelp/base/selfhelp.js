@@ -1,5 +1,5 @@
 var shStore = {
-    environment: 'dev',
+    environment: 'localDev',
     ipAddress: getIpAddress(),
     deviceNo: '',
     devicePort: '',
@@ -63,14 +63,14 @@ var shStore = {
 }
 
 shStore.consts = {
-    baseUrl_localDev: 'http://192.168.43.31:8008/api/',
+    baseUrl_localDev: 'http://192.168.43.31:8008/restapi/',
     baseUrl_dev: 'http://193.112.60.169:8000/restapi/',
     baseUrl_prod: 'http://193.112.60.169:8000/restapi/',
 
     basePagePath: 'pages/',
     websocketUrl: 'ws://localhost:8085',
     // websocketUrl: 'ws://192.168.43.31:8008/webSocket/msg',
-    readCardTimeout: 30,
+    readCardTimeout: 30,//second
     //尝试重新连接Websocket的等待时间
     websocketReconnectionTime: 1.5 * 60 * 1000,
     readCardIntervalTime: 40 * 1000,
@@ -114,6 +114,7 @@ function sendRequest(suffix, method, data, callback, errorCallback) {
     baseUrl += (suffix ? suffix : '');
 
     if (typeof Promise == 'undefined') {
+        shStore.progress.show();
         $.ajax({
                 url: baseUrl,
                 method: method ? method : 'post',
@@ -212,6 +213,14 @@ Date.prototype.beyondDefinedTime = function (startedTime, definedTime) {
     }
     var current = this.getTime();
     return (current - startedTime) > definedTime;
+}
+
+String.prototype.toYMD = function() {
+    var reg = /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})\d*/ig;
+    if(reg.test(this)){
+        return this.replace(reg, '$1年$2月$3日$4时$5分$6秒');
+    }
+    return this;
 }
 
 //spinner进度条
@@ -331,6 +340,12 @@ shStore.popupTool = {
     },
 
     showModalWin: function (type, message, autoClose, totalTime, callback) {
+        //存在相同信息的窗口则不必再显示
+        if($('.sysModal').length > 0
+            && $('.sysModal .titleInfo').text() == message){
+                return;
+        }
+
         $('body').append(this.modalTemplate);
 
         var classez;

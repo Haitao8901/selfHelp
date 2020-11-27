@@ -1,7 +1,6 @@
 //@ sourceURL=welcome_src.js
 $(function(){
     initStatus();
-
     //初始化一些状态
     function initStatus(){
         shStore.closeWindow = false;

@@ -353,6 +353,7 @@ $(function () {
                 shStore.popupTool.showErrorWin('Error: ' + code + '---' + status + '---' + message, forceStopCurrentFlow);
                 return;
             }
+
             if(code == '4003' || code == '4004' || code == '4005' ) {
                 if(checkWaitedTime()){
                     cpage.waitingTooLong = true;
@@ -366,7 +367,15 @@ $(function () {
                 return;
             }
 
-            var errorStr = 'WaitingResult error. ' + code + '---' + status + '---' + message;
+            if(code == '4001' || code == '4002'){
+                var errorStr = '发生错误: ' + code + '---' + status + '---' + message;
+                shStore.popupTool.showErrorWin(errorStr, forceStopCurrentFlow);
+                return;
+            }
+
+            code = data.ERRCODE;
+            message = data.ERRMSG;
+            var errorStr = '未知错误: ' + code + '---' + message;
             shStore.popupTool.showErrorWin(errorStr, forceStopCurrentFlow);
         }
 
@@ -496,9 +505,9 @@ $(function () {
 
     function fillOthersInfo(data) {
         var visitor = cpage.visitor;
-        visitor.visitType = data.VI_VISITORTYPE;
-        visitor.visitReason = data.VI_VISITORCAUSE;
-        visitor.remark = data.VI_VISITORREMARK;
+        visitor.visitType = '' + data.VI_VISITORTYPE;
+        visitor.visitReason = '' + data.VI_VISITORCAUSE;
+        visitor.remark = '' + data.VI_VISITORREMARK;
 
         //cType creason cremark
         //P:家长O:其他
@@ -511,10 +520,10 @@ $(function () {
     }
 
     function fillVisitTargetInfo(data) {
-        var cname = data.CI_NAME;
-        var cgrade = data.CI_ENTERYEAR;
-        var cclass = data.CI_CLASS;
-        var imagePath = data.CI_PHOTO_PATH;
+        var cname = '' + data.CI_NAME;
+        var cgrade = '' + data.CI_ENTERYEAR;
+        var cclass = '' + data.CI_CLASS;
+        var imagePath = '' + data.CI_PHOTO_PATH;
 
         $('.cname').val(cname);
         $('.cgrade').val(cgrade);
@@ -550,18 +559,19 @@ $(function () {
 
     function fillHistoryRecords(data) {
         //P:家长O:其他
-        var ctype = visitor.visitType == 'P' ? '家长':'其他';
+        var ctype = cpage.visitor.visitType == 'P' ? '家长':'其他';
         //S:探访V:拜访W:办事
-        var creason = visitor.visitReason == 'S' ? '探访':(visitor.visitReason == 'V' ? '拜访' : '办事');
+        var creason = cpage.visitor.visitReason == 'S' ? '探访':(cpage.visitor.visitReason == 'V' ? '拜访' : '办事');
 
         var records = [];
         records.push({
-            visitName:data.VI_NAME,
-            visitTime:data.VI_DATE,
-            visitReason:creason,
-            name:data.CI_NAME,
-            grade:data.CI_ENTERYEAR,
-            class:data.CI_CLASS
+            visitName: '' + data.VI_NAME,
+            originTime:'' + data.VI_DATE,
+            visitTime: ('' + data.VI_DATE).toYMD(),
+            visitReason: '' + creason,
+            name:'' + data.CI_NAME,
+            grade:'' + data.CI_ENTERYEAR,
+            class:'' + data.CI_CLASS
         });
 
         //添加到访客记录队列里

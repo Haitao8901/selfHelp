@@ -56,6 +56,11 @@ h2, h3, h3, h4 {
     width: 100%;
     height: 100%;
 }
+
+.content .cbox .inpic img.cimage {
+    object-fit: cover;
+}
+
 .content .datatable{
     border-bottom: 0.5px solid #2f9fff;
 }
