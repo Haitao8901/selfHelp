@@ -11,18 +11,29 @@ $(function(){
         shStore.events = [];
         shStore.eventListeners = [];
     }
+
     $('#deviceNo').on('change', function(){
         shStore.deviceNo = $(this).val();
     });
 
-    $('#connect').on('click', function () {
+    $('body').on('keydown', enterHandler);
+    $('#connect').on('click', doQueryDevice);
+
+    function enterHandler(e){
+        var which = e.which || e.keyCode;
+        if(which == 13) {
+            doQueryDevice();
+        }
+    }
+
+    function doQueryDevice(){
         var deviceNo = $('#deviceNo').val();
         if(!deviceNo){
             shStore.popupTool.showErrorWin('请输入设备号');
             return;
         }
         queryDeviceInfo();
-    });
+    }
 
     function queryDeviceInfo(){
         var deviceNo = $('#deviceNo').val();
@@ -62,6 +73,7 @@ $(function(){
             shStore.school = response.data.TB_NAME;
             shStore.tbCode = response.data.TB_CODE;
             loadTargetPage('visitor');
+            $('body').off('keydown', enterHandler);
             return;
         }
         if(!code){

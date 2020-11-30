@@ -40,7 +40,7 @@ body {
     }
 
     .modal-content {
-        margin-left: 16%;
+        margin-left: 10%;
         margin-top: 20%;
     }
 
@@ -103,7 +103,7 @@ body {
     .modal-content {
         margin-left: 16%;
         margin-top: 20%;
-        max-width: 300px;
+        max-width: 250px;
         max-height: 300px;
     }
     .modal-content h5 {

@@ -1,5 +1,6 @@
 var shStore = {
     environment: 'localDev',
+    fullScreenKey: 122,
     ipAddress: getIpAddress(),
     deviceNo: '',
     devicePort: '',
@@ -65,6 +66,7 @@ var shStore = {
 shStore.consts = {
     baseUrl_localDev: 'http://192.168.43.31:8008/restapi/',
     baseUrl_dev: 'http://193.112.60.169:8000/restapi/',
+    baseUrl_sit: 'http://193.112.60.169:8000/restapi/',
     baseUrl_prod: 'http://193.112.60.169:8000/restapi/',
 
     basePagePath: 'pages/',
@@ -99,6 +101,10 @@ shStore.getVisitImagePath = function(QR_IMG_PATH, TB_CODE, BRANCHCODE){
 shStore.getBaseUrl = function(){
     if(shStore.environment == 'prod'){
         return shStore.consts.baseUrl_prod;
+    }
+
+    if(shStore.environment == 'sit'){
+        return shStore.consts.baseUrl_sit;
     }
 
     if(shStore.environment == 'dev'){
@@ -174,6 +180,42 @@ function loadTargetPage(moduleName, callback) {
     $('#content').load(getFullModulePath(moduleName), function () {
         callback && callback.apply(this, arguments);
     });
+}
+
+function fullScreen() {
+    var el = document.getElementsByTagName('HTML')[0];
+    var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen,
+        wscript;
+
+    if(typeof rfs != "undefined" && rfs) {
+        rfs.call(el);
+        return;
+    }
+
+    if(typeof window.ActiveXObject != "undefined") {
+        wscript = new ActiveXObject("WScript.Shell");
+        if(wscript) {
+            wscript.SendKeys("{F11}");
+        }
+    }
+}
+
+function exitFullScreen() {
+    var el = document,
+        cfs = el.cancelFullScreen || el.webkitCancelFullScreen || el.mozCancelFullScreen || el.exitFullScreen,
+        wscript;
+
+    if (typeof cfs != "undefined" && cfs) {
+        cfs.call(el);
+        return;
+    }
+
+    if (typeof window.ActiveXObject != "undefined") {
+        wscript = new ActiveXObject("WScript.Shell");
+        if (wscript != null) {
+            wscript.SendKeys("{F11}");
+        }
+    }
 }
 
 function getFullModulePath(moduleName) {
