@@ -569,6 +569,7 @@ $(function () {
             originTime:'' + data.VI_DATE,
             visitTime: ('' + data.VI_DATE).toYMD(),
             visitReason: '' + creason,
+            visitorRemark: '' + data.VI_VISITORREMARK,
             name:'' + data.CI_NAME,
             grade:'' + data.CI_ENTERYEAR,
             class:'' + data.CI_CLASS
@@ -579,7 +580,7 @@ $(function () {
 
         // $('.recordTable tr:not(.th)').remove();
         var _th = $('.recordTable');
-        var template = '<tr><td>time</td><td>visitName</td><td>reason</td><td>name</td><td>grade</td><td>class</td></tr>';
+        var template = '<tr><td>time</td><td>visitName</td><td>reason</td><td>name</td><td>class</td><td>grade</td></tr>';
 
         for (var index in records) {
             var record = records[index];
