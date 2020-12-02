@@ -1,5 +1,6 @@
 //@ sourceURL=visitor_src.js
 $(function () {
+    shStore.currentpage = 'visitor';
     //储存当前页的各项信息
     var cpage = {
         deviceNo: shStore.deviceNo,
@@ -29,6 +30,7 @@ $(function () {
     shStore.visitorPage = cpage;
     window.setTimeout(setTableHeight,100);
     window.onresize = setTableHeight;
+
     initEvent();
     loadPageElementAndEvent();
 
@@ -69,20 +71,23 @@ $(function () {
     }
 
     function setTableHeight(){
+        if(shStore.currentpage != 'visitor'){
+            return;
+        }
         var contentHeight = $('.content').get(0).offsetHeight,
             lfposition = $('.lfbox').get(0).offsetTop,
             title = $('.lfbox .title').get(0).offsetHeight,
             tablerHeader = $('.tabler:first').get(0).offsetHeight;
 
         //访客表的高度
-        var height = contentHeight - lfposition - title - tablerHeader - 20;
+        var height = contentHeight - lfposition - title - tablerHeader - 12;
         $('.datatable').height(height);
 
         //如果当前行数不够，填充空白行
         var cRows = $('.datatable tr').length;
         //原始html页面有空白行，否则出错
         var rowHeight = $('.datatable tr:first').height();
-        var totalLines = Math.ceil(height/rowHeight);
+        var totalLines = Math.floor(height/rowHeight);
 
         if (cRows  < totalLines) {
             var blankRow = '<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>';

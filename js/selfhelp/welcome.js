@@ -3,6 +3,7 @@ $(function(){
     initStatus();
     //初始化一些状态
     function initStatus(){
+        shStore.currentpage = 'welcome';
         shStore.closeWindow = false;
         shStore.deviceNo = '';
         shStore.devicePort = '';

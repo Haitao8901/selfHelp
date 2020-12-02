@@ -1,5 +1,6 @@
 var shStore = {
     environment: 'localDev',
+    currentpage: 'welome',
     fullScreenKey: 122,
     ipAddress: getIpAddress(),
     deviceNo: '',

@@ -12,7 +12,9 @@ body {
     top: 0;
     bottom: 0;
     max-width: 100%;
-    overflow: hidden;
+    /*overflow: hidden;*/
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 0;
 }
 
