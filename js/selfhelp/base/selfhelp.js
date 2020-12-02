@@ -223,6 +223,7 @@ function getFullModulePath(moduleName) {
 }
 
 function getIpAddress(){
+    var returnCitySN = window.returnCitySN;
     if (returnCitySN) {
        return returnCitySN.cip;
     }
@@ -263,6 +264,23 @@ String.prototype.toYMD = function() {
         return this.replace(reg, '$1年$2月$3日$4时$5分$6秒');
     }
     return this;
+}
+
+String.prototype.toGrade = function() {
+    var reg = /^(c|g)(\d{4})$/ig;
+    if(!reg.test(this)){
+        return;
+    }
+    var grade = this.replace(reg, '$1');
+    var year = this.replace(reg, '$2');
+    var str = grade.toUpperCase() == 'C' ? '初' : '高';
+    switch(new Date().getFullYear() - parseInt(year)){
+        case 0: str += '一'; break;
+        case 1: str += '二'; break;
+        case 2: str += '三'; break;
+        default: str += '三';break;
+    }
+    return str;
 }
 
 //spinner进度条

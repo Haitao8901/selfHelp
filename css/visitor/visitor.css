@@ -46,23 +46,34 @@ h2, h3, h3, h4 {
 }
 
 /*读卡器读到的图片分辨率为 102* 126 */
-.content .cbox .inpic  {
+.content .inpic  {
     width: 160px;
     height: 180px;
 }
 
-.content .cbox .inpic img {
+.content .inpic img {
     object-fit: scale-down;
     width: 100%;
     height: 100%;
 }
 
-.content .cbox .inpic img.cimage {
+.content .inpic img.cimage {
     object-fit: cover;
 }
 
-.content .datatable{
+.content .datatable {
     border-bottom: 0.5px solid #2f9fff;
+}
+
+.content .rfbox {
+    display: none;
+    float: left;
+    width: 15%;
+    height: 100%;
+}
+
+.content .rfbox .inpic{
+    transform: translateY(50%);
 }
 
 @media screen and (max-width: 1024px) {
@@ -226,7 +237,7 @@ h2, h3, h3, h4 {
         box-shadow: 10px 10px 85px rgba(0, 0, 0, 0.2);
     }
 
-    .content .cbox .inpic  {
+    .content .inpic  {
         width: 150px;
         height: 180px;
     }
@@ -311,7 +322,7 @@ h2, h3, h3, h4 {
         display: inline-block;
     }
 
-    .content .cbox .inpic {
+    .content .inpic {
         width: 130px;
         height: 165px;
     }
@@ -347,7 +358,7 @@ h2, h3, h3, h4 {
         line-height: 16px;
     }
 
-    .content .cbox .inpic {
+    .content .inpic {
         width: 100px;
         height: 130px;
     }

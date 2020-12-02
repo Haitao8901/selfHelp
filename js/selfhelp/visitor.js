@@ -572,6 +572,7 @@ $(function () {
             visitorRemark: '' + data.VI_VISITORREMARK,
             name:'' + data.CI_NAME,
             grade:'' + data.CI_ENTERYEAR,
+            // grade:('' + data.CI_ENTERYEAR).toGrade(),
             class:'' + data.CI_CLASS
         });
 
