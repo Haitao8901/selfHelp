@@ -1,5 +1,5 @@
 var shStore = {
-    environment: 'localDev',
+    environment: 'prod',
     currentpage: 'welome',
     fullScreenKey: 122,
     ipAddress: getIpAddress(),
@@ -65,10 +65,10 @@ var shStore = {
 }
 
 shStore.consts = {
-    baseUrl_localDev: 'http://192.168.43.31:8008/restapi/',
+    baseUrl_localDev: 'http://localhost:80/restapi/',
+    // baseUrl_localDev: 'http://192.168.43.31:8008/restapi/',
     baseUrl_dev: 'http://193.112.60.169:8000/restapi/',
-    baseUrl_sit: 'http://193.112.60.169:8000/restapi/',
-    baseUrl_prod: 'http://193.112.60.169:8000/restapi/',
+    baseUrl_prod: 'http://123.207.246.241:80/restapi/',
 
     basePagePath: 'pages/',
     websocketUrl: 'ws://localhost:8085',
